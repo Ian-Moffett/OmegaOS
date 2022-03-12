@@ -14,3 +14,7 @@ reset:
 
 run:
 	qemu-system-x86_64 -cdrom Omega.iso -monitor stdio -d int -no-reboot -D logfile.txt -M smm=off
+
+# DO NOT USE THIS WITHOUT KNOWING WHAT YOU ARE DOING!
+burn_danger:
+	dd if=Omega.iso of=/dev/sdb status=progress
