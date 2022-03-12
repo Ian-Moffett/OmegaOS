@@ -95,7 +95,7 @@ void _start(struct stivale2_struct* stivale2_struct) {
     init_framebuffer(&lfb, (void*)framebuffer_tag->framebuffer_addr, (void*)framebuffer_tag, kwrite_main);
     framebuffer = lfb;
 
-    kwrite("\033[34;1;4mHello World!\nThis is the Omega kernel speaking!\n");
+    kwrite("\033[34;1;4mOmegaOS - Founder: Ian Marco Moffett\n");
 
     while (1) {
         __asm__ __volatile__("hlt");
