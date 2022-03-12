@@ -30,8 +30,11 @@ typedef struct {
 } framebuffer_t;
 
 
-void kwrite(framebuffer_t framebuffer, const char* STR);
+// Defined in kernel.c
+void kwrite(const char* STR);
 void init_framebuffer(framebuffer_t* lfb, void* addr, void* fb_core, void* kwrite);
 
+// Defined in kernel.c
+void fill_screen(const char* const STR);
 
 #endif
