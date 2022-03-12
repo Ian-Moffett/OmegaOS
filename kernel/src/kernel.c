@@ -3,6 +3,9 @@
 #include "../stivale2.h"
 #include "util/string.h"
 #include "drivers/video/Framebuffer.h"
+#include "interrupts/IDT.h"
+#include "interrupts/exceptions.h"
+
 
 static uint8_t stack[8000];
 
@@ -55,15 +58,29 @@ static void* get_tag(struct stivale2_struct* stivale2_struct, uint64_t id) {
 }
 
 
+framebuffer_t framebuffer;
+
 // kwrite_main wrapper.
-void kwrite(framebuffer_t framebuffer, const char* const STR) {    
+void kwrite(const char* const STR) {    
     framebuffer.kwrite(STR, strlen(STR));
 }
 
 
+void fill_screen(const char* const STR) {
+    for (int i = 0; i < 500; ++i) {
+        kwrite(STR);
+    }
+}
+
+
 void _start(struct stivale2_struct* stivale2_struct) {
+    idt_set_vector(0x0, div0_handler, TRAP_GATE_FLAGS);
+    idt_install();
+
     struct stivale2_struct_tag_terminal* term_str_tag = get_tag(stivale2_struct, STIVALE2_STRUCT_TAG_TERMINAL_ID);
     struct stivale2_struct_tag_framebuffer* framebuffer_tag = get_tag(stivale2_struct, STIVALE2_STRUCT_TAG_FRAMEBUFFER_ID);
+    framebuffer_tag->red_mask_shift = 0x0;
+    framebuffer_tag->green_mask_shift = 0x0;
 
     if (!(term_str_tag)) {
         while (1) {
@@ -76,8 +93,9 @@ void _start(struct stivale2_struct* stivale2_struct) {
 
     framebuffer_t lfb;
     init_framebuffer(&lfb, (void*)framebuffer_tag->framebuffer_addr, (void*)framebuffer_tag, kwrite_main);
+    framebuffer = lfb;
 
-    kwrite(lfb, "Hello from Omega!\nWritten By Ian Moffett!\nYes, I know. You can't do much for now.");
+    kwrite("\033[34;1;4mHello World!\nThis is the Omega kernel speaking!\n");
 
     while (1) {
         __asm__ __volatile__("hlt");
