@@ -3,11 +3,8 @@
 #include "../stivale2.h"
 #include "util/string.h"
 #include "drivers/video/Framebuffer.h"
-#include "drivers/pci/pci.h"
 #include "interrupts/IDT.h"
 #include "interrupts/exceptions.h"
-
-#define OMEGA_PCI_SCAN_VERBOSE
 
 static uint8_t stack[8000];
 
@@ -98,10 +95,6 @@ void _start(struct stivale2_struct* stivale2_struct) {
     framebuffer = lfb;
 
     kwrite("\033[34;1;4mOmegaOS - Founder: Ian Marco Moffett\n");
-
-    #ifdef OMEGA_PCI_SCAN_VERBOSE
-    pci_verbose_scan();
-    #endif
 
     while (1) {
         __asm__ __volatile__("hlt");
