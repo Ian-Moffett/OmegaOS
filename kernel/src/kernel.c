@@ -38,7 +38,7 @@ __attribute__((section(".stivale2hdr"), used)) static struct stivale2_header sti
 };
 
 
-void* get_tag(struct stivale2_struct* stivale2_struct, uint64_t id) {
+static void* get_tag(struct stivale2_struct* stivale2_struct, uint64_t id) {
     struct stivale2_tag* curTag = (void*)stivale2_struct->tags;
 
     while (1) {
@@ -54,8 +54,6 @@ void* get_tag(struct stivale2_struct* stivale2_struct, uint64_t id) {
         curTag = (void*)curTag->next;
     }
 }
-
-void load_gdt();
 
 
 // kwrite_main wrapper.
@@ -81,8 +79,6 @@ void _start(struct stivale2_struct* stivale2_struct) {
     init_framebuffer(&lfb, (void*)framebuffer_tag->framebuffer_addr, (void*)framebuffer_tag, kwrite_main);
 
     kwrite(lfb, "Hello from Omega!\nWritten By Ian Moffett!\nYes, I know. You can't do much for now.");
-
-    load_gdt();
 
     while (1) {
         __asm__ __volatile__("hlt");
