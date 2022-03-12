@@ -1,5 +1,5 @@
 # Omega
-Official Omega kernel repo.
+Official OmegaOS repo.
 
 ## For devs.
 
