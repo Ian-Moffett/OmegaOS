@@ -13,4 +13,4 @@ reset:
 
 
 run:
-	qemu-system-x86_64 -cdrom Omega.iso
+	qemu-system-x86_64 -cdrom Omega.iso -monitor stdio
