@@ -3,3 +3,4 @@ kernel/limine/
 *.elf
 *.iso
 *.o
+logfile.txt
