@@ -1,0 +1,21 @@
+#include "../IO.h"
+
+
+void outportb(uint16_t port, uint8_t byte) {
+    // Write one byte from a specific address on IO bus.
+    __asm__ __volatile__("out %%al, %%dx" : : "a" (byte), "d" (port));
+}
+
+
+uint8_t inportb(uint16_t port) {
+    // Read one byte from a specific address on IO bus.
+    uint8_t byte;
+    __asm__ __volatile__("in %%dx, %%al" : "=a" (byte) : "d" (port));
+    return byte;
+}
+
+
+void io_wait() {
+    // Waste one IO cycle.
+    __asm__ __volatile__("outb %%al, $0x80" : : "a" (0));
+}
