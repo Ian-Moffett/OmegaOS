@@ -77,7 +77,7 @@ void _start(struct stivale2_struct* stivale2_struct) {
     framebuffer_t lfb;
     init_framebuffer(&lfb, (void*)framebuffer_tag->framebuffer_addr, (void*)framebuffer_tag, kwrite_main);
 
-    kwrite(lfb, "Hello from Omega!");
+    kwrite(lfb, "Hello from Omega!\nWritten By Ian Moffett!\nYes, I know. You can't do much for now.");
 
     while (1) {
         __asm__ __volatile__("hlt");
