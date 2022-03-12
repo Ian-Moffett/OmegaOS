@@ -89,6 +89,13 @@
 #define ATA_REG_ALTSTATUS  0x0C
 #define ATA_REG_DEVADDRESS 0x0D
 
+typedef struct {
+    unsigned short base;        // start of the I/O ports used by the primary channel. 
+    unsigned short ctrl;        // start of the I/O ports which control the primary channel. 
+    unsigned short bmide;       // Bus Master IDE.
+    unsigned char nIEN;         // No interrupt.
+} ide_chnannel_regs;
+
 
 void ide_initialize(unsigned int BAR0, unsigned int BAR1, unsigned int BAR2, unsigned int BAR3, unsigned int BAR4);
 
