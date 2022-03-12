@@ -116,12 +116,16 @@ void _start(struct stivale2_struct* stivale2_struct) {
     __asm__ __volatile__("sti");
     kwrite("!! Test your keyboard and see if you see a message that says \"Done!\"\n");
 
+    bool firstIRQFired = false;
+
     while (1) {
         __asm__ __volatile__("hlt");
-        if (!(lastKey.serviced)) {
+        if (!(lastKey.serviced) && firstIRQFired) {
             lastKey.serviced = true;
             break;
         }
+
+        firstIRQFired = true;
     }
 
     kwrite("Done!\n");
