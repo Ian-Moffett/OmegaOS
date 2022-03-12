@@ -47,5 +47,17 @@ GDT64:                           ; Global Descriptor Table (64-bit).
 
 
 load_gdt:
-    cli
-    hlt
+    lgdt [Pointer]    ; Tell the CPU about our GDT.
+    ; Our old segments need to point to our new GDT's
+    ; selectors.
+    mov rax, 0x10
+    mov ds, rax
+    mov es, rax
+    mov fs, rax
+    mov gs, rax
+    mov ss, rax
+    mov rax, 0x08
+    pop rdi
+    push rax
+    push rdi
+    retfq
