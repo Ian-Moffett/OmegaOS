@@ -5,6 +5,7 @@
 #include "drivers/video/Framebuffer.h"
 #include "drivers/IO/PIC.h"
 #include "drivers/IO/IO.h"
+#include "drivers/ps2/Keyboard.h"
 #include "interrupts/IDT.h"
 #include "interrupts/exceptions.h"
 
@@ -67,15 +68,9 @@ void kwrite(const char* const STR) {
 }
 
 
-void fill_screen(const char* const STR) {
-    for (int i = 0; i < 500; ++i) {
-        kwrite(STR);
-    }
-}
-
-
 void _start(struct stivale2_struct* stivale2_struct) {
-    idt_set_vector(0x0, div0_handler, TRAP_GATE_FLAGS);
+    extern keystroke_t lastKey;
+
     idt_set_vector(0x0, div0_handler, TRAP_GATE_FLAGS);
     idt_set_vector(0x1, debug_excp_handler, TRAP_GATE_FLAGS);
     idt_set_vector(0x3, breakpoint_handler, TRAP_GATE_FLAGS);
@@ -91,6 +86,7 @@ void _start(struct stivale2_struct* stivale2_struct) {
     idt_set_vector(0xD, gpf_handler, TRAP_GATE_FLAGS);
     idt_set_vector(0xE, page_fault_handler, TRAP_GATE_FLAGS);
     idt_set_vector(0xF, fpe_handler, TRAP_GATE_FLAGS);
+    idt_set_vector(0x21, kb_isr, INT_GATE_FLAGS);
     idt_install();
 
     struct stivale2_struct_tag_terminal* term_str_tag = get_tag(stivale2_struct, STIVALE2_STRUCT_TAG_TERMINAL_ID);
@@ -118,6 +114,16 @@ void _start(struct stivale2_struct* stivale2_struct) {
     outportb(PIC1_DATA, inportb(PIC1_DATA) ^ (1 << 1));
     kwrite("Enabling interrupts..\n");
     __asm__ __volatile__("sti");
+    kwrite("!! Test your keyboard and see if you see a message that says \"Done!\"\n");
+
+    while (1) {
+        __asm__ __volatile__("hlt");
+        if (!(lastKey.serviced)) {
+            lastKey.serviced = true;
+            break;
+        }
+    }
+
     kwrite("Done!\n");
 
     while (1) {
