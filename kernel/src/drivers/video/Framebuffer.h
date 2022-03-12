@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "../../util/string.h"
 
 typedef struct {
     unsigned char magic[2];
