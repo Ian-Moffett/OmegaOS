@@ -3,7 +3,6 @@
 #include "../stivale2.h"
 #include "util/string.h"
 #include "drivers/video/Framebuffer.h"
-#include "drivers/memory/GDT.h"
 
 static uint8_t stack[8000];
 

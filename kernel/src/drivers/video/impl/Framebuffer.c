@@ -1,17 +1,5 @@
 #include "../Framebuffer.h"
 
-void init_framebuffer(framebuffer_t* lfb, void* addr, void* fb_core, void* kwrite) {
-    lfb->r = 0xFF;
-    lfb->g = 0xFF;
-    lfb->b = 0xFF;
-    lfb->x = 10;
-    lfb->y = 50;
-    lfb->gapsize = 300;
-    lfb->addr = addr;
-    lfb->fb_core = fb_core;
-    lfb->kwrite = kwrite;
-}
-
 
 uint32_t psf1_font[] = {
     0x36, 0x04, 0x02, 0x10, 0x00, 0x00, 0x00, 0x3E, 0x63, 0x5D, 0x7D, 0x7B, 0x77, 0x77, 0x7F, 0x77, 
@@ -347,3 +335,32 @@ uint32_t psf1_font[] = {
     0xF8, 0x00, 0xFF, 0xFF, 0xF9, 0x00, 0xFF, 0xFF, 0xFA, 0x00, 0xFF, 0xFF, 0xFB, 0x00, 0xFF, 0xFF, 
     0xFC, 0x00, 0xFF, 0xFF, 0xFD, 0x00, 0xFF, 0xFF, 0xFE, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0xFF, 0xFF   
 };
+
+
+
+void init_framebuffer(framebuffer_t* lfb, void* addr, void* fb_core, void* kwrite) {
+    lfb->r = 0xFF;
+    lfb->g = 0xFF;
+    lfb->b = 0xFF;
+    lfb->x = 10;
+    lfb->y = 50;
+    lfb->gapsize = 300;
+    lfb->addr = addr;
+    lfb->fb_core = fb_core;
+    lfb->kwrite = kwrite;
+}
+
+void putChar(framebuffer_t* framebuffer, psf1_font_t* psf1_font, unsigned int color, char chr, unsigned int xOff, unsigned int yOff) {
+    unsigned int* pixPtr = (unsigned int*)framebuffer->baseAddr;
+    char* fontPtr = psf1_font->glpyhBuffer + (chr * psf1_font->header->chsize);
+    for (unsigned long y = yOff; y < yOff + 16; y++){
+        for (unsigned long x = xOff; x < xOff+8; x++){
+            if ((*fontPtr & (0b10000000 >> (x - xOff))) > 0){
+                    *(unsigned int*)(pixPtr + x + (y * framebuffer->ppsl)) = color;
+                }
+
+        }
+
+        fontPtr++;
+    }
+}
