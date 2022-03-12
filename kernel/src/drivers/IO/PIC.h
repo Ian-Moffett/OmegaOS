@@ -12,7 +12,9 @@
 #define PIC_EOI 0x20
 
 #include "IO.h"
+#include <stdbool.h>
 
 void pic_send_EOI(int irq);
+void pic_init();
 
 #endif
