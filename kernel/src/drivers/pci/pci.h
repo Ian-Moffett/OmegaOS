@@ -1,7 +1,9 @@
 #ifndef PCI_H
 #define PCI_H
 
+
 #include <stdint.h>
+#include "../IO/IO.h"
 
 /*
  *  @slot - which slot on the motherboard to choose.
