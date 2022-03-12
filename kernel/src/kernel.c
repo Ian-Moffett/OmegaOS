@@ -1,8 +1,9 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "../stivale2.h"
-#include "drivers/video/Framebuffer.h"
 #include "util/string.h"
+#include "drivers/video/Framebuffer.h"
+#include "drivers/memory/GDT.h"
 
 static uint8_t stack[8000];
 
@@ -80,6 +81,8 @@ void _start(struct stivale2_struct* stivale2_struct) {
     init_framebuffer(&lfb, (void*)framebuffer_tag->framebuffer_addr, (void*)framebuffer_tag, kwrite_main);
 
     kwrite(lfb, "Hello from Omega!\nWritten By Ian Moffett!\nYes, I know. You can't do much for now.");
+
+    load_gdt();
 
     while (1) {
         __asm__ __volatile__("hlt");
