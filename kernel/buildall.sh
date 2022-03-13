@@ -21,7 +21,9 @@ done
 for i in $(find ./ -type f -name "*.asm")
 do
     nasm $i -felf64 -o $i.o
-done 
+done
+
+echo $(find ./ -type f -name "*.o")
 
 
 ld  $(find ./ -type f -name "*.o") -Tlinker.ld            \
