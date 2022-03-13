@@ -34,6 +34,7 @@ typedef struct {
 // Defined in kernel.c
 void kwrite(const char* STR);
 void init_framebuffer(framebuffer_t* lfb, void* addr, void* fb_core, void* kwrite);
+void putChar(framebuffer_t* framebuffer, unsigned int color, char chr, unsigned int xOff, unsigned int yOff);
 
 // Defined in kernel.c
 void fill_screen(const char* const STR);

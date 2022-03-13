@@ -20,6 +20,7 @@ done
 
 for i in $(find ./ -type f -name "*.asm")
 do
+    echo "AAAAA"
     nasm $i -felf64 -o $i.o
 done
 
