@@ -28,7 +28,6 @@ extern crapout
 div0_handler:
     panic 0x0
 
-
 debug_excp_handler:
     panic 0x1
 
