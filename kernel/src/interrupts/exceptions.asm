@@ -50,7 +50,6 @@ device_not_avail_handler:
 double_fault_handler:
     panic 0x7
 
-
 cso_handler:
     panic 0x9
 
