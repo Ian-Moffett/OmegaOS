@@ -20,6 +20,7 @@ extern crapout
 %macro panic 1
     pop rdi
     mov rsi, %1
+    times 6 pop rdx
     call crapout
     cli
     hlt

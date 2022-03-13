@@ -133,6 +133,8 @@ void _start(struct stivale2_struct* stivale2_struct) {
     kwrite("\033[H\033[2J\033[3J");
     kwrite("Done!\n");
 
+    if (0 / 0 == 1) {}
+
     while (1) {
         __asm__ __volatile__("hlt");
     }
