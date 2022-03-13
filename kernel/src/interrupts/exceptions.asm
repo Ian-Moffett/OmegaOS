@@ -17,109 +17,57 @@ global fpe_handler              ; Floating point exception handler
 
 extern crapout
 
-div0_handler:
+%macro panic 1
     pop rdi
-    mov rsi, 0x0
+    mov rsi, %1
     call crapout
     cli
     hlt
+%endmacro
+
+div0_handler:
+    panic 0x0
 
 
 debug_excp_handler:
-    pop rdi
-    mov rsi, 0x1
-    call crapout
-    cli
-    hlt
+    panic 0x1
 
 breakpoint_handler:
-    pop rdi
-    mov rsi, 0x3
-    call crapout
-    cli
-    hlt
+    panic 0x3
 
 overflow_handler:
-    pop rdi
-    mov rsi, 0x4
-    call crapout
-    cli
-    hlt
-
+    panic 0x4
 
 bre_handler:
-    pop rdi
-    mov rsi, 0x5
-    call crapout
-    cli
-    hlt
+    panic 0x5
 
 invld_opcode_handler:
-    pop rdi
-    mov rsi, 0x6
-    call crapout
-    cli
-    hlt
+    panic 0x6
 
 device_not_avail_handler:
-    pop rdi
-    mov rsi, 0x7
-    call crapout
-    cli
-    hlt
+    panic 0x7
 
 double_fault_handler:
-    pop rdi
-    mov rsi, 0x8
-    call crapout
-    cli
-    hlt
+    panic 0x7
 
 
 cso_handler:
-    pop rdi
-    mov rsi, 0x9
-    call crapout
-    cli
-    hlt
+    panic 0x9
 
 invalid_tss_handler:
-    pop rdi
-    mov rsi, 0xA
-    call crapout
-    cli
-    hlt
+    panic 0xA
 
 snp_handler:
-    pop rdi
-    mov rsi, 0xB
-    call crapout
-    cli
-    hlt
+    panic 0xB
 
 ssf_handler:
-    pop rdi
-    mov rsi, 0xC
-    call crapout
-    cli
-    hlt
+    panic 0xC
 
 gpf_handler:
-    pop rdi
-    mov rsi, 0xD
-    call crapout
-    cli
-    hlt
+    panic 0xD
 
 page_fault_handler:
-    pop rdi
-    mov rsi, 0xE
-    cli
-    hlt
+    panic 0xE
 
 fpe_handler:
-    pop rdi
-    mov rsi, 0xF
-    call crapout
-    cli
-    hlt
+    panic 0xF
